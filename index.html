@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soni Zi Creations - Official Website</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1F2937; /* Dark Gray background */
+            color: #D1D5DB; /* Light Gray text */
+        }
+        .golden-text {
+            color: #FFD700; /* Gold color for highlights */
+        }
+        .btn-golden {
+            background-color: #FFD700;
+            color: #1F2937;
+            padding: 8px 20px;
+            font-weight: 600;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .btn-golden:hover {
+            background-color: #B8860B; /* Darker Gold */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        .card-effect {
+            background-color: #374151; /* Darker card background */
+            border: 1px solid #4B5563;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card-effect:hover {
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+        /* Styling for dynamic samples */
+        .sample-item {
+            position: relative;
+            background-color: #4B5563;
+            height: 150px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .sample-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none; /* Initially hidden */
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FFD700;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+             color: #FFD700;
+             font-size: 0.8rem;
+             margin-top: 8px;
+        }
+        .error-text {
+            color: #F87171;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 5px;
+        }
+        /* Style for uploaded media */
+        .uploaded-media {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation Bar (नेविगेशन बार) -->
+    <nav class="sticky top-0 z-50 bg-[#1F2937] bg-opacity-95 shadow-lg border-b border-yellow-700/30 p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold golden-text">Soni Zi Creations</h1>
+            <div class="space-x-4 hidden md:flex">
+                <a href="#home" class="text-gray-300 hover:golden-text transition duration-200">होम</a>
+                <a href="#services" class="text-gray-300 hover:golden-text transition duration-200">सेवाएँ</a>
+                <a href="#gallery" class="text-gray-300 hover:golden-text transition duration-200">गैलरी</a>
+                <a href="#contact" class="text-gray-300 hover:golden-text transition duration-200">संपर्क</a>
+                <!-- मालिक लॉगिन बटन का उपयोग केवल कोड मालिक द्वारा किया जाना है --><button id="openUploadNav" class="text-sm btn-golden px-3 py-1 rounded-full">मालिक लॉगिन</button>
+            </div>
+            <!-- Mobile Menu Button (मोबाइल मेनू बटन) --><button class="md:hidden text-gray-300 text-2xl" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                &#9776;
+            </button>
+        </div>
+        <!-- Mobile Menu Links (मोबाइल मेनू लिंक्स) --><div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+            <a href="#home" class="block p-2 text-gray-300 hover:golden-text transition duration-200" onclick="document.getElementById('mobile-menu').classList.add('hidden')">होम</a>
+            <a href="#services" class="block p-2 text-gray-300 hover:golden-text transition duration-200" onclick="document.getElementById('mobile-menu').classList.add('hidden')">सेवाएँ</a>
+            <a href="#gallery" class="block p-2 text-gray-300 hover:golden-text transition duration-200" onclick="document.getElementById('mobile-menu').classList.add('hidden')">गैलरी</a>
+            <a href="#contact" class="block p-2 text-gray-300 hover:golden-text transition duration-200" onclick="document.getElementById('mobile-menu').classList.add('hidden')">संपर्क</a>
+            <button id="openUploadMobile" class="w-full text-left p-2 text-sm btn-golden rounded-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden'); document.getElementById('modal').style.display='flex';">मालिक लॉगिन</button>
+        </div>
+    </nav>
+
+    <!-- Main Content (मुख्य सामग्री) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Home Section (होम सेक्शन) --><section id="home" class="py-16 md:py-32 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h2 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight golden-text">
+                    SONI ZI CREATIONS, <span class="block text-white">Welcomes You</span>
+                </h2>
+                <p class="text-gray-400 text-lg mb-8">
+                    Soni Zi Creations में, हम आपके व्यक्तिगत और व्यावसायिक प्रिंटिंग और डिज़ाइन आवश्यकताओं को पूरा करने के लिए उच्च-गुणवत्ता वाली सेवाएँ प्रदान करते हैं।
+                </p>
+                <div class="space-x-4">
+                    <a href="#services" class="btn-golden">हमारी सेवाएँ देखें</a>
+                    <a href="#contact" class="text-white border border-yellow-700/50 px-5 py-2 rounded-full hover:bg-yellow-700/20 transition duration-300">संपर्क करें</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <!-- Placeholder for a central graphic/logo --><div class="w-64 h-64 md:w-80 md:h-80 bg-gray-700 rounded-full flex items-center justify-center border-4 border-yellow-700 shadow-2xl">
+                    <span class="text-xl text-white font-bold text-center p-8">डिज़ाइन, प्रिंटिंग, और उपहार</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section (सेवाएँ सेक्शन) -->
+        <section id="services" class="py-16 md:py-24">
+            <h3 class="text-4xl font-bold text-center mb-12 golden-text">हमारी मुख्य सेवाएँ</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Service 1: Wedding Cards - Clicking displays samples -->
+                <div class="card-effect p-6 rounded-xl hover:scale-[1.05] cursor-pointer" onclick="displaySamples('wedding', 'वेडिंग कार्ड्स')">
+                    <div class="text-4xl mb-3 golden-text">✉️</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">वेडिंग कार्ड्स</h4>
+                    <p class="text-gray-400 text-sm">प्रीमियम और ट्रेडिशनल निमंत्रण कार्ड डिज़ाइन।</p>
+                </div>
+
+                <!-- Service 2: T-Shirt & Mug Printing - Clicking displays samples -->
+                <div class="card-effect p-6 rounded-xl hover:scale-[1.05] cursor-pointer" onclick="displaySamples('tshirt', 'टी-शर्ट और मग प्रिंटिंग')">
+                    <div class="text-4xl mb-3 golden-text">👕</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">टी-शर्ट और मग प्रिंटिंग</h4>
+                    <p class="text-gray-400 text-sm">कॉर्पोरेट और व्यक्तिगत उपहार प्रिंटिंग।</p>
+                </div>
+
+                <!-- Service 3: Banners & Posters - Clicking displays samples -->
+                <div class="card-effect p-6 rounded-xl hover:scale-[1.05] cursor-pointer" onclick="displaySamples('banner', 'बैनर, पोस्टर, स्टिकर')">
+                    <div class="text-4xl mb-3 golden-text">🖼️</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">बैनर, पोस्टर, स्टिकर</h4>
+                    <p class="text-gray-400 text-sm">हाई-रेजोल्यूशन फ्लेक्स और विनाइल प्रिंट्स।</p>
+                </div>
+
+                <!-- Service 4: Digital Design - Clicking displays samples -->
+                <div class="card-effect p-6 rounded-xl hover:scale-[1.05] cursor-pointer" onclick="displaySamples('digital', 'डिजिटल डिजाइन सेवाएँ')">
+                    <div class="text-4xl mb-3 golden-text">💻</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">डिजिटल डिजाइन सेवाएँ</h4>
+                    <p class="text-gray-400 text-sm">लोगो और सोशल मीडिया ग्राफ़िक्स।</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section (गैलरी सेक्शन) -->
+        <section id="gallery" class="py-16 md:py-24">
+            <h3 class="text-4xl font-bold text-center mb-12 golden-text">हमारा काम (गैलरी)</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                
+                <!-- Gallery Item 1 (Wedding) - Clicking displays samples -->
+                <div class="card-effect rounded-lg overflow-hidden transition duration-300 hover:scale-[1.02] cursor-pointer" onclick="displaySamples('wedding', 'वेडिंग कार्ड्स')">
+                    <img src="https://placehold.co/400x300/B8860B/FFF?text=Wedding+Card" alt="वेडिंग कार्ड डिज़ाइन" class="w-full h-auto object-cover">
+                    <p class="p-2 text-center text-sm text-gray-300">वेडिंग कार्ड सैंपल</p>
+                </div>
+
+                <!-- Gallery Item 2 (T-Shirt) - Clicking displays samples -->
+                <div class="card-effect rounded-lg overflow-hidden transition duration-300 hover:scale-[1.02] cursor-pointer" onclick="displaySamples('tshirt', 'टी-शर्ट प्रिंट')">
+                    <img src="https://placehold.co/400x300/FFD700/1F2937?text=T-Shirt+Design" alt="टी-शर्ट प्रिंट" class="w-full h-auto object-cover">
+                    <p class="p-2 text-center text-sm text-gray-300">टी-शर्ट प्रिंट</p>
+                </div>
+
+                <!-- Gallery Item 3 (Banner) - Clicking displays samples -->
+                <div class="card-effect rounded-lg overflow-hidden transition duration-300 hover:scale-[1.02] cursor-pointer" onclick="displaySamples('banner', 'बैनर प्रिंटिंग')">
+                    <img src="https://placehold.co/400x300/D1D5DB/1F2937?text=Banner+Sample" alt="बैनर प्रिंटिंग" class="w-full h-auto object-cover">
+                    <p class="p-2 text-center text-sm text-gray-300">बैनर का उदाहरण</p>
+                </div>
+
+                <!-- Gallery Item 4 (Mug/Gift) - Clicking displays samples -->
+                <div class="card-effect rounded-lg overflow-hidden transition duration-300 hover:scale-[1.02] cursor-pointer" onclick="displaySamples('tshirt', 'मग प्रिंट का काम')">
+                    <img src="https://placehold.co/400x300/FFD700/1F2937?text=Mug+Print" alt="मग प्रिंटिंग" class="w-full h-auto object-cover">
+                    <p class="p-2 text-center text-sm text-gray-300">मग प्रिंट का काम</p>
+                </div>
+            </div>
+
+            <!-- AI Sample Display Area (AI सैंपल डिस्प्ले एरिया) -->
+            <div class="text-center mt-10">
+                <p id="gallery-hint" class="text-gray-400 text-lg">
+                    अधिक सैंपल देखने के लिए कृपया ऊपर दिए गए किसी भी कार्ड या इमेज पर क्लिक करें। सैंपल नीचे दिखाई देंगे।
+                </p>
+                <p id="loading-indicator" class="mt-4 text-sm text-yellow-400 hidden">
+                    <!-- Loading text for image generation -->
+                </p>
+            </div>
+            
+            <div id="sample-display-area" class="mt-12 grid grid-cols-2 md:grid-cols-5 gap-4">
+                <!-- AI Samples will be injected here dynamically -->
+            </div>
+        </section>
+
+        <!-- Client Uploaded Samples Display Area (नया सेक्शन) -->
+        <section id="uploaded-samples-section" class="py-16 md:py-24">
+            <h3 class="text-4xl font-bold text-center mb-12 golden-text">अपलोड किए गए सैंपल</h3>
+            <p class="text-center text-gray-400 mb-8">मालिक लॉगिन के माध्यम से अपलोड किए गए सैंपल यहां दिखते हैं। (नोट: यह डेटा केवल इस ब्राउज़र सेशन के लिए ही सेव होता है।)</p>
+            <div id="uploaded-samples-display" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <p class="col-span-full text-center text-gray-500" id="no-uploads-message">अभी तक कोई सैंपल अपलोड नहीं किया गया है।</p>
+            </div>
+        </section>
+        
+        <!-- Contact Section (संपर्क सेक्शन) -->
+        <section id="contact" class="py-16 md:py-24">
+            <h3 class="text-4xl font-bold text-center mb-12 golden-text">हमसे संपर्क करें</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <!-- Location -->
+                <div class="p-6 card-effect rounded-xl">
+                    <div class="text-4xl mb-3 golden-text">📍</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">हमारा पता</h4>
+                    <!-- Updated Map Link --><a id="map-link" href="https://maps.app.goo.gl/Aacxi5Xy3M1AzeYa8?g_st=aw" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:golden-text block transition duration-300">
+                        2nd Floor, Sai Complex, Main Market, Bhopal, MP
+                    </a>
+                </div>
+                
+                <!-- New: WhatsApp Link (Direct Message) -->
+                <div class="p-6 card-effect rounded-xl">
+                    <div class="text-4xl mb-3 golden-text">💬</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">व्हाट्सएप चैट</h4>
+                    <!-- WhatsApp Link with pre-filled message --><a href="https://wa.me/916267742025?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%95%E0%A4%BE%E0%A4%B0%2C%20%E0%A4%AE%E0%A5%81%E0%A4%9D%E0%A5%87%20Soni%20Zi%20Creations%20%E0%A4%95%E0%A5%80%20%E0%A4%B8%E0%A5%87%E0%A4%B5%E0%A4%BE%E0%A4%93%E0%A4%82%20%E0%A4%95%E0%A5%87%20%E0%A4%AC%E0%A4%BE%E0%A4%B0%E0%A5%87%20%E0%A4%AE%E0%A5%87%20%E0%A4%9C%E0%A4%BE%E0%A4%A8%E0%A4%A8%E0%A4%BE%20%E0%A4%B9%E0%A5%88%E0%A5%A4" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:golden-text block transition duration-300">
+                        +91 62677 42025 पर मैसेज करें
+                    </a>
+                </div>
+                
+                <!-- Email -->
+                <div class="p-6 card-effect rounded-xl">
+                    <div class="text-4xl mb-3 golden-text">📧</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">ईमेल</h4>
+                    <!-- Updated Email Link --><a href="mailto:sonizicreationsspur@gmail.com" class="text-gray-400 hover:golden-text block transition duration-300">
+                        sonizicreationsspur@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <!-- New: Social Media Links -->
+            <div class="mt-16 text-center">
+                <h4 class="text-3xl font-bold golden-text mb-6">सोशल मीडिया पर हमें फ़ॉलो करें</h4>
+                <div class="flex justify-center space-x-8">
+                    <!-- Instagram (Updated Link) -->
+                    <a href="https://www.instagram.com/soni_zi_creation_in_your_city?igsh=a2hlcGF2Mm8zZ2d1" target="_blank" rel="noopener noreferrer" title="Instagram Link" class="text-gray-400 hover:text-pink-500 transition duration-300 transform hover:scale-110">
+                        <!-- Instagram Icon SVG -->
+                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.071 1.17.055 1.805.249 2.227.427.606.262.936.598 1.258.929s.672.652.929 1.258c.178.422.372 1.057.427 2.227.059 1.266.071 1.646.071 4.85s-.012 3.584-.071 4.85c-.055 1.17-.249 1.805-.427 2.227-.262.606-.598.936-1.258.929s-.652.672-.929 1.258c-.422.178-1.057.372-2.227.427-1.266.059-1.646.071-4.85.071s-3.584-.012-4.85-.071c-1.17-.055-1.805-.249-2.227-.427-.606-.262-.936-.598-1.258-.929s-.672-.652-.929-1.258c-.178-.422-.372-1.057-.427-2.227-.059-1.266-.071-1.646-.071-4.85s.012-3.584.071-4.85c.055-1.17.249-1.805.427-2.227.262-.606.598-.936.929-1.258s.652-.672 1.258-.929c.422-.178 1.057-.372 2.227-.427C8.416 2.175 8.796 2.163 12 2.163zm0 14.542c-2.43 0-4.402-1.973-4.402-4.402s1.972-4.402 4.402-4.402 4.402 1.973 4.402 4.402-1.972 4.402-4.402 4.402zm4.508-7.48c-.287 0-.522-.236-.522-.522s.235-.522.522-.522.522.236.522.522-.235.522-.522.522zm-4.508-1.428c-1.463 0-2.646 1.183-2.646 2.646s1.183 2.646 2.646 2.646 2.646-1.183 2.646-2.646-1.183-2.646-2.646-2.646z"/>
+                        </svg>
+                        <span class="sr-only">Instagram</span>
+                    </a>
+                    <!-- YouTube (Updated Link) -->
+                    <a href="https://youtube.com/@mrtech-qv8cg?si=kIt4SeiJBsNzzPK_" target="_blank" rel="noopener noreferrer" title="YouTube Channel" class="text-gray-400 hover:text-red-600 transition duration-300 transform hover:scale-110">
+                        <!-- YouTube Icon SVG -->
+                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.615 3.19c-.317-.468-.787-.722-1.23-.74-1.009-.053-4.99-.053-4.99-.053h-.78c-1.393.003-3.643.03-5.26.082-.533.018-.958.217-1.32.65-.33.393-.52 1.026-.52 1.921v8.42c0 .878.21 1.488.52 1.922.362.433.82.632 1.353.65 1.617.053 3.867.08 5.26.08h.78s3.981 0 4.99-.053c.443-.018.913-.272 1.23-.74.317-.468.52-1.026.52-1.922v-8.42c0-.895-.203-1.528-.52-1.921zM9.46 13.92V8.08l4.49 2.92-4.49 2.92z"/>
+                        </svg>
+                        <span class="sr-only">YouTube</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (फुटर) -->
+    <footer class="bg-[#111827] py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <p>&copy; 2024 Soni Zi Creations. All rights reserved.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#home" class="hover:golden-text">होम</a>
+                <a href="#services" class="hover:golden-text">सेवाएँ</a>
+                <!-- Updated Call Link (Keeping direct call option in footer) --><a href="tel:+916267742025" class="hover:golden-text">कॉल</a>
+                <!-- Updated Map Link --><a href="https://maps.app.goo.gl/Aacxi5Xy3M1AzeYa8?g_st=aw" target="_blank" rel="noopener noreferrer" class="hover:golden-text">लोकेशन</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- MODAL 2: Owner Login & Upload (मालिक लॉगिन और अपलोड) -->
+    <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden items-center justify-center z-[100]" onclick="this.style.display='none'; resetModal();">
+        <div class="bg-gray-800 rounded-xl p-6 w-96 transform transition-all duration-300 shadow-2xl border-2 border-yellow-700/50" onclick="event.stopPropagation()">
+            
+            <h4 id="modalTitle" class="text-2xl font-bold golden-text mb-4">मालिक लॉगिन</h4>
+            
+            <!-- 1. Login Form (Initial State) -->
+            <div id="loginForm">
+                <input type="password" id="hostCodeInput" placeholder="मालिक कोड डालें" class="w-full p-3 mb-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-yellow-500 focus:border-yellow-500">
+                <button id="loginButton" class="w-full btn-golden">लॉगिन</button>
+                <p id="loginMessage" class="text-center mt-3 text-sm text-red-400"></p>
+            </div>
+            
+            <!-- 2. Upload Form (After Successful Login) -->
+            <div id="uploadForm" class="hidden space-y-4">
+                <label for="uploadSampleType" class="block text-sm font-medium text-gray-400">सैंपल किस चीज़ का है? (अनिवार्य)</label>
+                <select id="uploadSampleType" class="w-full p-3 mb-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-yellow-500 focus:border-yellow-500">
+                    <option value="">-- टाइप चुनें (Select Type) --</option>
+                    <option value="Image">चित्र (Image)</option>
+                    <option value="Video">वीडियो (Video)</option>
+                    <option value="Document">दस्तावेज़ (Document)</option>
+                    <option value="Other">अन्य (Other)</option>
+                </select>
+                
+                <input type="file" id="uploadFileInput" class="w-full p-2 text-sm text-gray-300 bg-gray-700 rounded-lg border border-gray-600">
+                
+                <button id="performUploadButton" class="w-full btn-golden mt-4">सैंपल अपलोड करें</button>
+                <p id="uploadMessage" class="text-center mt-3 text-sm text-green-400 hidden"></p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Global Constants (वैश्विक स्थिरांक)
+    const HOST_CODE = "7697"; 
+    const modal = document.getElementById('modal');
+    const sampleArea = document.getElementById('sample-display-area');
+    const galleryHint = document.getElementById('gallery-hint');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const uploadedSamplesDisplay = document.getElementById('uploaded-samples-display');
+    const apiKey = ""; // API Key for image generation
+
+    // Fix: QuotaExceededError से बचने के लिए Local Storage का उपयोग बंद कर दिया गया है। 
+    // अब डेटा केवल वर्तमान सेशन के लिए memory में रहेगा।
+    let uploadedSamples = []; 
+    
+    // Function to render uploaded samples
+    function renderUploadedSamples() {
+        uploadedSamplesDisplay.innerHTML = ''; // Clear existing samples
+        const message = document.getElementById('no-uploads-message');
+
+        if (uploadedSamples.length === 0) {
+            uploadedSamplesDisplay.innerHTML = '<p class="col-span-full text-center text-gray-500" id="no-uploads-message">अभी तक कोई सैंपल अपलोड नहीं किया गया है।</p>';
+            return;
+        }
+
+        uploadedSamples.forEach(sample => {
+            let previewElement;
+            const mimeType = sample.fileType.split('/')[0];
+
+            if (mimeType === 'image') {
+                previewElement = `<img src="${sample.fileData}" alt="${sample.fileName}" class="uploaded-media">`;
+            } else if (mimeType === 'video') {
+                previewElement = `<video src="${sample.fileData}" controls class="uploaded-media"></video>`;
+            } else {
+                // Placeholder for non-media files
+                previewElement = `
+                    <div class="flex items-center justify-center h-full text-center p-4 bg-gray-50 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                `;
+            }
+
+            const cardHTML = `
+                <div class="card-effect rounded-lg overflow-hidden p-3 space-y-2">
+                    <div class="h-32 flex items-center justify-center bg-gray-700 rounded-lg">
+                        ${previewElement}
+                    </div>
+                    <p class="text-sm font-medium text-gray-300 truncate" title="${sample.fileName}">नाम: ${sample.fileName}</p>
+                    <span class="text-xs px-2 py-1 bg-yellow-700/30 text-yellow-300 rounded-full">${sample.sampleType}</span>
+                </div>
+            `;
+            uploadedSamplesDisplay.insertAdjacentHTML('beforeend', cardHTML);
+        });
+    }
+
+    // Call render on initial load
+    document.addEventListener('DOMContentLoaded', renderUploadedSamples);
+
+    // इमेज जनरेशन के लिए प्रॉम्प्ट डेटा (Image Generation Prompt Data)
+    const imagePrompts = {
+        wedding: [
+            "A high-quality, modern, luxurious Indian wedding card design with a gold foil border and minimalist text, close-up view.",
+            "A traditional Rajasthani style wedding invitation design with vibrant colors, peacock motif, and ornate typography.",
+            "An elegant Christian wedding invitation with a simple floral wreath, clean fonts, and a soft pastel color palette.",
+            "A contemporary, eco-friendly wedding card made of recycled paper with a rustic, nature-inspired design.",
+            "A creative digital save-the-date card design with motion graphics style and a Bollywood theme.",
+        ],
+        tshirt: [
+            "A creative graphic design for a black T-Shirt print featuring 'Soni Zi' in bold typography and a small paintbrush icon, vector style.",
+            "A funny, minimal graphic design for a white mug featuring a simple coffee icon and a quirky Hindi phrase.",
+            "A T-shirt design for a corporate team event featuring a motivational slogan and a geometric pattern, on an orange shirt.",
+            "A personalized mug design showing a photo collage inside a heart shape, photo-realistic rendering.",
+            "A sporty jersey print design with a large number and custom name 'CREATIONS', bold font.",
+        ],
+        banner: [
+            "A high-resolution, professional 6x3 ft flex banner design for a mobile repair shop advertisement, bold text, red and yellow colors.",
+            "A large outdoor billboard design for a grand opening sale featuring attractive product photography and a 50% off headline.",
+            "A vibrant, eye-catching vinyl sticker design for a laptop featuring a colorful abstract background and motivational quote.",
+            "A detailed menu board poster design for a fast-food restaurant, clean layout and appealing food images.",
+            "A promotional standee banner design for a real estate project, showing an apartment rendering and contact details.",
+        ],
+        digital: [
+            "A sleek, modern logo design for a tech startup named 'ZiDigital', abstract mark, blue and white colors, vector.",
+            "A visually engaging social media post graphic for a Diwali sale event, featuring traditional lamps and festive colors, 1:1 aspect ratio.",
+            "A professional, minimalist business card design (front and back) with QR code and gold typography.",
+            "An infographic design showing 5 steps of 'How to Start a Business', clean icons and flowchart layout.",
+            "A modern, colorful flyer design for a local tuition class advertisement, showing students and educational elements.",
+        ]
+    };
+
+    // AI Image Generation Logic (Same as before)
+    async function generateImageSample(prompt, elementId) {
+        const imageUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+        const imageElement = document.getElementById(elementId);
+        const loader = document.getElementById('loader-' + elementId);
+        const errorElement = document.getElementById('error-' + elementId);
+
+        let retryCount = 0;
+        const maxRetries = 3;
+
+        while (retryCount < maxRetries) {
+            try {
+                if(loader) loader.style.display = 'block';
+                if(errorElement) errorElement.style.display = 'none';
+                
+                const payload = { 
+                    instances: [{ prompt: prompt }], 
+                    parameters: { "sampleCount": 1 } 
+                };
+
+                const response = await fetch(imageUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const base64Data = result.predictions[0].bytesBase64Encoded;
+                    const src = `data:image/png;base64,${base64Data}`;
+                    
+                    if(imageElement) {
+                        imageElement.src = src;
+                        imageElement.style.display = 'block';
+                    }
+                    if(loader) loader.style.display = 'none';
+                    return;
+                } else {
+                    throw new Error("Invalid response structure or no image data.");
+                }
+
+            } catch (error) {
+                console.error(`Image Generation Error (Attempt ${retryCount + 1}):`, error);
+                retryCount++;
+                if (retryCount < maxRetries) {
+                    const delay = Math.pow(2, retryCount) * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+        
+        if(loader) loader.style.display = 'none';
+        if(errorElement) errorElement.style.display = 'block';
+        if(imageElement) {
+            imageElement.src = `https://placehold.co/150x150/505050/FFF?text=Error`;
+            imageElement.style.display = 'block';
+        }
+    }
+
+
+    function displaySamples(categoryKey, categoryTitle) {
+        sampleArea.innerHTML = ''; 
+        loadingIndicator.classList.add('hidden');
+
+        const selectedPrompts = imagePrompts[categoryKey] || [];
+        const promises = [];
+
+        if (selectedPrompts.length > 0) {
+            let htmlContent = '';
+            for(let i = 0; i < 5; i++) {
+                const id = `${categoryKey}-sample-${i}`;
+                htmlContent += `
+                    <div class="p-1 md:p-2 card-effect rounded-lg hover:scale-[1.03]">
+                        <div class="sample-item">
+                            <img id="${id}" class="sample-image" alt="${categoryTitle} सैंपल ${i + 1}" onerror="this.onerror=null; this.src='https://placehold.co/150x150/505050/FFF?text=Image+Load+Fail';" />
+                            <div id="loader-${id}" class="loader"></div>
+                            <p class="loading-text">इमेज जनरेट हो रही है...</p>
+                            <p id="error-${id}" class="error-text hidden">इमेज लोड नहीं हो पाई।</p>
+                        </div>
+                        <p class="text-center text-xs mt-1 text-gray-400">${categoryTitle.split(' ')[0]} सैंपल ${i + 1}</p>
+                    </div>
+                `;
+            }
+            sampleArea.innerHTML = htmlContent;
+            
+            galleryHint.innerHTML = `
+                <span class="golden-text font-semibold">" ${categoryTitle} "</span> 
+                के लिए 5 AI द्वारा जनरेट किए गए डिज़ाइन सैंपल नीचे दिखाए जा रहे हैं। कृपया लोड होने का इंतज़ार करें।
+            `;
+            
+            sampleArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            loadingIndicator.classList.remove('hidden');
+            loadingIndicator.innerText = `AI 5 डिज़ाइन सैंपल जनरेट कर रहा है। कृपया प्रतीक्षा करें... (यह प्रक्रिया कुछ सेकंड ले सकती है)`;
+
+            for(let i = 0; i < 5; i++) {
+                const id = `${categoryKey}-sample-${i}`;
+                promises.push(generateImageSample(selectedPrompts[i], id));
+            }
+
+            Promise.all(promises).finally(() => {
+                loadingIndicator.innerText = `सभी 5 डिज़ाइन सैंपल लोड हो चुके हैं।`;
+                setTimeout(() => loadingIndicator.classList.add('hidden'), 3000);
+            });
+
+
+        } else {
+            sampleArea.innerHTML = '<p class="col-span-5 text-center text-red-400">इस श्रेणी के लिए कोई सैंपल प्रॉम्प्ट उपलब्ध नहीं है।</p>';
+        }
+    }
+
+
+    // --- OWNER LOGIN & UPLOAD LOGIC ---
+    
+    // Get Modal elements
+    const loginForm = document.getElementById('loginForm');
+    const uploadForm = document.getElementById('uploadForm');
+    const modalTitle = document.getElementById('modalTitle');
+    const loginMessage = document.getElementById('loginMessage');
+    const uploadMessage = document.getElementById('uploadMessage');
+    const uploadSampleType = document.getElementById('uploadSampleType');
+    const uploadFileInput = document.getElementById('uploadFileInput');
+
+
+    document.getElementById('openUploadNav').addEventListener('click', () => {
+        resetModal();
+        modal.style.display = 'flex';
+    });
+
+    document.getElementById('openUploadMobile').addEventListener('click', () => {
+        resetModal();
+        modal.style.display = 'flex';
+    });
+
+    document.getElementById('loginButton').addEventListener('click', () => {
+        const input = document.getElementById('hostCodeInput');
+        
+        if (input.value === HOST_CODE) {
+            // SUCCESS: Switch to Upload Form
+            loginMessage.innerText = 'लॉगिन सफल! अब आप सैंपल अपलोड कर सकते हैं।';
+            loginMessage.classList.remove('text-red-400');
+            loginMessage.classList.add('text-green-400');
+
+            setTimeout(() => {
+                loginForm.classList.add('hidden');
+                uploadForm.classList.remove('hidden');
+                modalTitle.innerText = 'नया सैंपल अपलोड करें';
+                loginMessage.classList.add('hidden');
+            }, 1000);
+
+        } else {
+            // FAILURE: Show error
+            loginMessage.innerText = 'कोड गलत है। कृपया पुनः प्रयास करें।';
+            loginMessage.classList.add('text-red-400');
+            loginMessage.classList.remove('text-green-400');
+            loginMessage.classList.remove('hidden');
+        }
+    });
+    
+    // UPLOAD LOGIC
+    document.getElementById('performUploadButton').addEventListener('click', () => {
+        const file = uploadFileInput.files[0];
+        const selectedType = uploadSampleType.value;
+        
+        uploadMessage.classList.add('hidden');
+        
+        if (!selectedType) {
+            uploadMessage.innerText = 'कृपया सैंपल का प्रकार (Sample Type) चुनें।';
+            uploadMessage.classList.remove('text-green-400');
+            uploadMessage.classList.add('text-red-400');
+            uploadMessage.classList.remove('hidden');
+            return;
+        }
+
+        if (!file) {
+            uploadMessage.innerText = 'कृपया अपलोड करने के लिए कोई फ़ाइल चुनें।';
+            uploadMessage.classList.remove('text-green-400');
+            uploadMessage.classList.add('text-red-400');
+            uploadMessage.classList.remove('hidden');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Store data in In-Memory Array (Fix for QuotaExceededError)
+            const newSample = {
+                fileName: file.name,
+                fileType: file.type || 'Other',
+                sampleType: selectedType,
+                fileData: e.target.result // Base64 or Data URL
+            };
+
+            uploadedSamples.push(newSample);
+            // FIX APPLIED: localStorage.setItem() line has been REMOVED to prevent QuotaExceededError.
+            
+            // Update UI
+            renderUploadedSamples();
+
+            // Show success message and reset inputs
+            uploadMessage.innerText = `सैंपल "${file.name}" सफलतापूर्वक अपलोड हो गया!`;
+            uploadMessage.classList.remove('text-red-400');
+            uploadMessage.classList.add('text-green-400');
+            uploadMessage.classList.remove('hidden');
+            
+            uploadFileInput.value = ''; // Reset file input
+            uploadSampleType.value = ''; // Reset dropdown
+
+            setTimeout(() => {
+                uploadMessage.classList.add('hidden');
+                modal.style.display = 'none'; // Close modal after success
+            }, 2000);
+        };
+
+        reader.onerror = function() {
+            uploadMessage.innerText = 'फ़ाइल पढ़ने में त्रुटि हुई।';
+            uploadMessage.classList.remove('text-green-400');
+            uploadMessage.classList.add('text-red-400');
+            uploadMessage.classList.remove('hidden');
+        };
+
+        // Read file as Data URL
+        reader.readAsDataURL(file);
+    });
+
+
+    function resetModal() {
+        // Reset to initial login state when opening or closing
+        document.getElementById('hostCodeInput').value = '';
+        loginMessage.innerText = '';
+        loginMessage.classList.add('hidden');
+        uploadMessage.classList.add('hidden');
+        
+        loginForm.classList.remove('hidden');
+        uploadForm.classList.add('hidden');
+        modalTitle.innerText = 'मालिक लॉगिन';
+        
+        // Reset upload form inputs
+        uploadFileInput.value = '';
+        uploadSampleType.value = '';
+    }
+
+    modal.addEventListener('click', (e)=> {
+        if(e.target === modal) { modal.style.display='none'; resetModal(); }
+    });
+</script>
+</body>
+</html>
